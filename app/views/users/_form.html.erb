@@ -24,12 +24,14 @@
   <div class="" style="display: none;" data-upload-progress-target="progress">
     <div>Video Uploaded to Server: <span id="progressText" data-upload-progress-target="progressText">Loading....</span></div>
     <div id="progress-bar" style="background: black; position: relative; width: 200px; height: 20px;">
-    
+      <div id="progressWidth" data-upload-progress-target="progressWidth" style="width: 0%; height: 100%; position:absolute; background: blue;">
+
+      </div>
     </div>
   </div>
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Save", data: { action: "click->show-progress#showProgress" } %>
   </div>
 <% end %>
