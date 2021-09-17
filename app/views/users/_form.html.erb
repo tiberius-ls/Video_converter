@@ -1,4 +1,4 @@
-<%= form_with(model: user, html: { data: { controller: "show-progress"} } ) do |form| %>
+<%= form_with(model: user, html: { data: { controller: "upload-progress"} } ) do |form| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -21,17 +21,15 @@
     <%= form.file_field :user_video, accept: "video/*", direct_upload: true %>
   </div>
 
-  <div class="" style="display: none;" data-upload-progress-target="progress">
-    <div>Video Uploaded to Server: <span id="progressText" data-upload-progress-target="progressText">Loading....</span></div>
-    <div id="progress-bar" style="background: black; position: relative; width: 200px; height: 20px;">
-      <div id="progressWidth" data-upload-progress-target="progressWidth" style="width: 0%; height: 100%; position:absolute; background: blue;">
-
+  <div style="display: none;" data-upload-progress-target="progress">
+    <div>Uploading your video to our servers: <span id="progressText" data-upload-progress-target="progressText">Warming up...</span></div>
+    <div id="progress-bar" style="background: gray; position: relative; width: 200px; height: 20px;">
+      <div id="progressWidth" data-upload-progress-target="progressWidth" style="width: 0%; height: 100%; position: absolute; background: green;">
       </div>
     </div>
   </div>
 
-
   <div class="actions">
-    <%= form.submit "Save", data: { action: "click->show-progress#showProgress" } %>
+    <%= form.submit "Save", data: { action: "click->upload-progress#showProgress" } %>
   </div>
 <% end %>

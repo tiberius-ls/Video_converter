@@ -25,6 +25,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        update_conversion_value
+        ConvertVideoJob.perform_later(@user.id)
         format.html { redirect_to @user, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -38,6 +40,8 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        update_conversion_value
+        ConvertVideoJob.perform_later(@user.id)
         format.html { redirect_to @user, notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -57,6 +61,16 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def update_conversion_value
+      return unless @user.user_video
+
+      needs_conversion = @user.user_video.content_type != "video/mp4"
+      @user.update_column(:convert_video, needs_conversion)
+
+    end
+
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
